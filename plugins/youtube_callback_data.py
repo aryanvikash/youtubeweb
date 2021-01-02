@@ -1,6 +1,6 @@
 import asyncio
 import os
-
+from urllib.parse import quote_plus
 from pyrogram import (Client,ContinuePropagation,StopPropagation)
 from pyrogram.types import InlineKeyboardButton,InlineKeyboardMarkup
 
@@ -56,10 +56,10 @@ async def catch_youtube_dldata(c, q):
 
     if media_type.lower() == "audio":
         filename = await downloadaudiocli(audio_command)
-        await q.edit_message_text(f"{HostName}/downloads/{userid}/{filename.split('/')[-1]}")
+        await q.edit_message_text(f"{HostName}/downloads/{userid}/{quote_plus(filename.split('/')[-1])}")
 
     if  media_type.lower() =="video":
         filename = await downloadvideocli(video_command)
-        await q.edit_message_text(f"{HostName}/downloads/{userid}/{filename.split('/')[-1]}")
+        await q.edit_message_text(f"{HostName}/downloads/{userid}/{quote_plus(filename.split('/')[-1])}")
 
 
