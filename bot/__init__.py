@@ -5,8 +5,7 @@ users ={}
 user_time = {}
 
 
-# subprocess.Popen(["python3","web.py"])
+subprocess.Popen(["gunicorn", "web:app"])
 
-print("Bot Started")
 
 

@@ -3,3 +3,4 @@ TgCrypto
 Pyrogram==1.0.7
 youtube-dl
 Flask
+gunicorn

@@ -1,8 +1,8 @@
 from pyrogram import Client ,idle
 import config
 import asyncio
-import threading
-from web import app
+# import threading
+# from web import app
 
 BOT_TOKEN = config.BOT_TOKEN
 
@@ -24,7 +24,7 @@ pyro =  Client(
     workers=50
 )
 
-threading.Thread(target=app.run, daemon=True).start()
+# threading.Thread(target=app.run, daemon=True).start()
 
 pyro.run()
 
