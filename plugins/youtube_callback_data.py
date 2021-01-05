@@ -14,7 +14,6 @@ from config import HostName
 async def catch_youtube_dldata(c, q):
     userid = q.message.chat.id
     cb_data = q.data.strip()
-    print(cb_data)
     if not cb_data.startswith("ytdata||"):
         raise StopPropagation
 
@@ -54,12 +53,29 @@ async def catch_youtube_dldata(c, q):
         "-o", filepath,
         "--hls-prefer-ffmpeg", yturl]
 
-    if media_type.lower() == "audio":
-        filename = await downloadaudiocli(audio_command)
-        await q.edit_message_text(f"{HostName}/downloads/{userid}/{quote_plus(filename.split('/')[-1])}")
+    filepath = None
+    Downloaderror = None
 
-    if  media_type.lower() =="video":
-        filename = await downloadvideocli(video_command)
-        await q.edit_message_text(f"{HostName}/downloads/{userid}/{quote_plus(filename.split('/')[-1])}")
+    if media_type.lower() == "audio":
+        Downloaderror, filepath = await downloadaudiocli(audio_command)
+
+    if  media_type.lower() == "video":
+        Downloaderror, filepath = await downloadvideocli(video_command)
+
+        
+    if filepath:
+        filenamePath = filepath.replace(" ","_")
+        os.rename(filepath,filenamePath)
+        downloadLink = f"{HostName}/downloads/{userid}/{quote_plus(os.path.basename(filenamePath))}"
+        print(downloadLink)
+        downloadButton = InlineKeyboardMarkup([
+            [InlineKeyboardButton("Download 🔗", url=downloadLink.strip(" "))],
+            [InlineKeyboardButton("Delete 🚮",callback_data=f"del||{os.path.basename(filenamePath)}")]
+            ])
+        downloadLink = f"{HostName}/downloads/{userid}/{quote_plus(os.path.basename(filenamePath))}"
+        # await q.edit_message_text(downloadLink)
+        await q.edit_message_reply_markup(downloadButton)
+    else:
+        await q.edit_message_text(f"{Downloaderror} \n#Download Error")
 
 

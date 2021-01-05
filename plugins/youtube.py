@@ -29,8 +29,8 @@ async def ytdl(_, message):
         user_time[message.chat.id] = now + \
                                      timedelta(minutes=youtube_next_fetch)
 
-    except Exception:
-        await message.reply_text("`Failed To Fetch Youtube Data... 😔 \nPossible Youtube Blocked server ip \n#error`")
+    except Exception as e :
+        await message.reply_text(f"`Failed To Fetch Youtube Data... 😔 \nPossible Youtube Blocked server ip  \n\n Error:` {e}\n\n#error")
         return
 
     buttons = InlineKeyboardMarkup(list(create_buttons(formats)))
