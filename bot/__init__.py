@@ -5,7 +5,7 @@ users ={}
 user_time = {}
 
 
-# subprocess.Popen(["gunicorn", "web:app"])
+subprocess.Popen(["gunicorn", "web:app"])
 
 
 
