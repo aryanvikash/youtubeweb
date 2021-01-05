@@ -8,7 +8,8 @@ from helper.ffmfunc import duration
 from helper.ytdlfunc import downloadvideocli, downloadaudiocli
 
 from config import HostName
-
+from bot import usersLinks
+import uuid
 
 @Client.on_callback_query()
 async def catch_youtube_dldata(c, q):
@@ -68,9 +69,12 @@ async def catch_youtube_dldata(c, q):
         os.rename(filepath,filenamePath)
         downloadLink = f"{HostName}/downloads/{userid}/{quote_plus(os.path.basename(filenamePath))}"
         print(downloadLink)
+        RandomId = uuid.uuid4().hex
+
+        usersLinks[RandomId] = os.path.basename(filenamePath)
         downloadButton = InlineKeyboardMarkup([
             [InlineKeyboardButton("Download 🔗", url=downloadLink.strip(" "))],
-            [InlineKeyboardButton("Delete 🚮",callback_data=f"del||{os.path.basename(filenamePath)}")]
+            [InlineKeyboardButton("Delete 🚮",callback_data=f"del||{RandomId}")]
             ])
         downloadLink = f"{HostName}/downloads/{userid}/{quote_plus(os.path.basename(filenamePath))}"
         # await q.edit_message_text(downloadLink)

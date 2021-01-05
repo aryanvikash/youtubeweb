@@ -6,6 +6,10 @@ from bot import user_time
 from config import youtube_next_fetch
 from helper.ytdlfunc import extractYt, create_buttons
 
+from PIL import Image
+from urllib.request import urlopen
+from io import BytesIO
+
 ytregex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
 
 
@@ -30,7 +34,7 @@ async def ytdl(_, message):
                                      timedelta(minutes=youtube_next_fetch)
 
     except Exception as e :
-        await message.reply_text(f"`Failed To Fetch Youtube Data... 😔 \nPossible Youtube Blocked server ip  \n\n Error:` {e}\n\n#error")
+        await message.reply_text(f"`Failed To Fetch Youtube Data... 😔 \nPossible Youtube Blocked server ip  \n\n` {e}\n\n#error")
         return
 
     buttons = InlineKeyboardMarkup(list(create_buttons(formats)))
@@ -43,8 +47,16 @@ async def ytdl(_, message):
         await sentm.delete()
     except Exception as e:
         try:
-            thumbnail_url = "https://telegra.ph/file/ce37f8203e1903feed544.png"
-            await message.reply_photo(thumbnail_url, caption=title, reply_markup=buttons)
+                #  Thanks to @gautamajay52
+                
+                im = Image.open(urlopen(thumbnail_url)).convert("RGB")
+                temp = BytesIO()
+                im.save(temp, format="jpeg")
+                g = BytesIO(temp.getvalue())
+                g.name='Youtubedl.jpeg'
+                # await message.reply_photo(g)
+            # thumbnail_url = "https://telegra.ph/file/ce37f8203e1903feed544.png"
+                await message.reply_photo(g, caption=title, reply_markup=buttons)
         except Exception as e:
             await sentm.edit(f"<code>{e}</code> #Error")
 
