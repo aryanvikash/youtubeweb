@@ -5,7 +5,7 @@ APP_ID = int(os.environ.get("API_ID","1278490"))
 API_HASH = os.environ.get("API_HASH","69d16301a6ce2d3b68b81e5f881bfca7")
 HostName = os.environ.get("HostName","https://webtube.aryanvikash.com")
 
-youtube_next_fetch = 2  # time in minute
+youtube_next_fetch = 1  # time in minute
 
 
-EDIT_TIME = 0
+EDIT_TIME = 5
