@@ -8,4 +8,4 @@ HostName = os.environ.get("HostName","https://webtube.aryanvikash.com")
 youtube_next_fetch = 2  # time in minute
 
 
-EDIT_TIME = 5
+EDIT_TIME = 0
